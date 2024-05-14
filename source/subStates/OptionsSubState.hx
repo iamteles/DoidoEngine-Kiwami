@@ -15,7 +15,7 @@ import states.PlayState;
 import data.GameData.MusicBeatSubState;
 import gameObjects.menu.Alphabet;
 import gameObjects.menu.options.*;
-import states.menu.MainMenuState;
+import states.DebugState;
 
 class OptionsSubState extends MusicBeatSubState
 {
@@ -174,7 +174,7 @@ class OptionsSubState extends MusicBeatSubState
             {
                 persistentDraw = true;
                 if(playState == null)
-                    Main.switchState(new MainMenuState());
+                    Main.switchState(new DebugState());
                 else
                 {
                     CoolUtil.playMusic();

@@ -23,7 +23,7 @@ class CoolUtil
 	{
 		return switch(week)
 		{
-			default: ["easy", "normal", "hard"];
+			default: ["normal"];
 		}
 	}
 
@@ -32,15 +32,7 @@ class CoolUtil
 		return [
 			"dad",
 			"gf",
-			"gf-tutorial",
-			"bf",
-			"bf-pixel",
-			"bf-pixel-dead",
-			"gf-pixel",
-			"senpai",
-			"senpai-angry",
-			"spirit",
-			"gemamugen",
+			"bf"
 		];
 	}
 

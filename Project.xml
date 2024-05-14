@@ -3,7 +3,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="kiwami means extreme" file="DEKiwami" main="Main" version="3.1k" company="teles" />
+	<app title="kiwami means extreme" file="DEKiwami" main="Main" version="3.2.0" company="teles" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -38,6 +38,7 @@
 	<!-- _____________________________ Custom Defines ___________________________ -->
 
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
+	<define name="PRELOAD_SONG" if="desktop" unless="debug" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

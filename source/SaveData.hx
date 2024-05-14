@@ -15,6 +15,12 @@ class SaveData
 {
 	public static var data:Map<String, Dynamic> = [];
 	public static var displaySettings:Map<String, Dynamic> = [
+		// SOME OF THESE ARE UNUSED, DONT WORRY
+		"Shaders" => [
+			false,
+			CHECKMARK,
+			"Whether do display Shaders."
+		],
 		"Ghost Tapping" => [
 			true,
 			CHECKMARK,

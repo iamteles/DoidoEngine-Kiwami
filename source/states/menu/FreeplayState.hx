@@ -68,22 +68,7 @@ class FreeplayState extends MusicBeatState
 		add(bg);
 		
 		// base fnf
-		addWeek(["tutorial"], ["gf"]);
-		addWeek(["bopeebo", "fresh", "dadbattle"], ["dad"]);
-		addWeek(["senpai", "roses", "thorns"], ["senpai","senpai","spirit"]);
-		
-		// other guys
-		addSong("defeat", "black-impostor");
-		addSong("madness", "tricky");
-		addSong("expurgation", "tricky");
-		addSong("exploitation", "true-expunged");
-		addSong("collision", 	"gemamugen"); // CU PINTO BOSTA
-		addSong("lunar-odyssey","luano-day");
-		addSong("escape-from-california","moldygh");
-
-		// BEEP-POWER
-		addSong("beep-power", "dad");
-		addSong("ferocious", "dad");
+		addSong("fresh", "dad");
 		
 		grpItems = new FlxGroup();
 		add(grpItems);
@@ -138,10 +123,13 @@ class FreeplayState extends MusicBeatState
 			changeSelection(-1);
 		if(Controls.justPressed("UI_DOWN"))
 			changeSelection(1);
+
+		/*
 		if(Controls.justPressed("UI_LEFT"))
 			changeDiff(-1);
 		if(Controls.justPressed("UI_RIGHT"))
 			changeDiff(1);
+		*/
 
 		if(Controls.justPressed("RESET"))
 			openSubState(new DeleteScoreSubState(songList[curSelected][0], CoolUtil.getDiffs()[curDiff]));
@@ -179,7 +167,7 @@ class FreeplayState extends MusicBeatState
 		if(Controls.justPressed("BACK"))
 		{
 			FlxG.sound.play(Paths.sound('menu/cancelMenu'));
-			Main.switchState(new MainMenuState());
+			Main.switchState(new DebugState());
 		}
 
 		for(rawItem in grpItems.members)

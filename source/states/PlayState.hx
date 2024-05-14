@@ -378,67 +378,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 		
-		if(hasCutscene())
-		{
-			switch(SONG.song)
-			{
-				case 'senpai'|'roses':
-					CoolUtil.playMusic('dialogue/lunchbox');
-					startDialogue(DialogueUtil.loadFromSong(SONG.song));
-					
-					if(SONG.song == 'roses')
-						FlxG.sound.play(Paths.sound('dialogue/senpai/roses_sfx'));
-				
-				case 'thorns':
-					CoolUtil.playMusic('dialogue/lunchbox-scary');
-					Paths.preloadSound('sounds/dialogue/senpai/senpai_dies');
-					var red = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
-					red.cameras = [camHUD];
-					red.scrollFactor.set();
-					red.screenCenter();
-					add(red);
-					
-					var spirit = new FlxSprite();
-					spirit.frames = Paths.getSparrowAtlas('cutscenes/thorns/senpaiCrazy');
-					spirit.animation.addByPrefix('dies', 'Senpai Pre Explosion', 24, false);
-					spirit.antialiasing = false;
-					spirit.scale.set(5,5);
-					spirit.updateHitbox();
-					spirit.cameras = [camHUD];
-					spirit.scrollFactor.set();
-					spirit.screenCenter();
-					spirit.x += 80;
-					spirit.y -= 20;
-					add(spirit);
-					
-					spirit.alpha = 0;
-					
-					new FlxTimer().start(0.6, function(tmr:FlxTimer)
-					{
-						spirit.animation.play('dies');
-						FlxTween.tween(spirit, {alpha: 1}, 0.5);
-						FlxTween.tween(spirit, {alpha: 0}, 1.0, {startDelay: 3.2});
-						
-						FlxG.sound.play(Paths.sound('dialogue/senpai/senpai_dies'), 1, false, null, true, function()
-						{
-							CoolUtil.flash(camHUD, 0.6, 0xFFff1b31, true);
-							//camHUD.flash(0xFFff1b31, 0.6, null, true);
-							remove(red);
-							remove(spirit);
-							
-							new FlxTimer().start(0.8, function(tmr:FlxTimer)
-							{
-								startDialogue(DialogueUtil.loadFromSong('thorns'));
-							});
-						});
-					});
-					
-				default:
-					startCountdown();
-			}
-		}
-		else
-			startCountdown();
+		startCountdown();
 	}
 
 	public function startCountdown()
@@ -1700,7 +1640,7 @@ class PlayState extends MusicBeatState
 		if(isStoryMode)
 		{
 			isStoryMode = false;
-			Main.switchState(new StoryMenuState());
+			Main.switchState(new DebugState());
 		}
 		else
 		{
