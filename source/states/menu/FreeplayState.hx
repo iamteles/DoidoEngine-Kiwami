@@ -68,8 +68,20 @@ class FreeplayState extends MusicBeatState
 		add(bg);
 		
 		// base fnf
-		addSong("fresh", "dad");
+		addWeek(["tutorial"], ["gf"]);
+		addWeek(["bopeebo", "fresh", "dadbattle"], ["dad"]);
+		addWeek(["senpai", "roses", "thorns"], ["senpai","senpai","spirit"]);
 		
+		// other guys
+		addSong("defeat", "black-impostor");
+		addSong("madness", "tricky");
+		addSong("expurgation", "tricky");
+		addSong("exploitation", "true-expunged");
+		addSong("collision", 	"gemamugen"); // CU PINTO BOSTA
+		addSong("lunar-odyssey","luano-day");
+		addSong("escape-from-california","moldygh");
+		addSong("beep-power", "dad");
+
 		grpItems = new FlxGroup();
 		add(grpItems);
 
@@ -123,13 +135,10 @@ class FreeplayState extends MusicBeatState
 			changeSelection(-1);
 		if(Controls.justPressed("UI_DOWN"))
 			changeSelection(1);
-
-		/*
 		if(Controls.justPressed("UI_LEFT"))
 			changeDiff(-1);
 		if(Controls.justPressed("UI_RIGHT"))
 			changeDiff(1);
-		*/
 
 		if(Controls.justPressed("RESET"))
 			openSubState(new DeleteScoreSubState(songList[curSelected][0], CoolUtil.getDiffs()[curDiff]));
@@ -144,19 +153,11 @@ class FreeplayState extends MusicBeatState
 		{
 			try
 			{
-				var diff = CoolUtil.getDiffs()[curDiff];
-				
-				//trace('$diff');
-				//trace('songs/${songList[curSelected][0]}/${songList[curSelected][0]}-${diff}');
-				
 				PlayState.playList = [];
-				PlayState.SONG = SongData.loadFromJson(songList[curSelected][0], diff);
-				//CoolUtil.playMusic();
+				PlayState.songDiff = CoolUtil.getDiffs()[curDiff];
+				PlayState.loadSong(songList[curSelected][0]);
 				
-				PlayState.songDiff = diff;
-				
-				//Main.switchState(new PlayState());
-				Main.loadPlayState();
+				Main.switchState(new LoadSongState());
 			}
 			catch(e)
 			{
@@ -167,7 +168,7 @@ class FreeplayState extends MusicBeatState
 		if(Controls.justPressed("BACK"))
 		{
 			FlxG.sound.play(Paths.sound('menu/cancelMenu'));
-			Main.switchState(new DebugState());
+			Main.switchState(new MainMenuState());
 		}
 
 		for(rawItem in grpItems.members)

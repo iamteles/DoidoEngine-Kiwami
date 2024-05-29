@@ -24,7 +24,7 @@ class Character extends FlxSprite
 	public var idleAnims:Array<String> = [];
 
 	public var quickDancer:Bool = false;
-	public var specialAnim:Bool = false;
+	public var specialAnim:Int = 0;
 
 	// warning, only uses this
 	// if the current character doesnt have game over anims
@@ -61,6 +61,133 @@ class Character extends FlxSprite
 		// what
 		switch(curChar)
 		{
+			case "gemamugen":
+				frames = Paths.getSparrowAtlas("characters/gemamugen/gemamugen");
+				
+				animation.addByPrefix('idle', 		'idle', 24, true);
+				animation.addByPrefix('idle-alt',	'chacharealsmooth', 24, true);
+				animation.addByPrefix('singLEFT', 	'left', 24, false);
+				animation.addByPrefix('singDOWN', 	'down', 24, false);
+				animation.addByPrefix('singUP', 	'up', 24, false);
+				animation.addByPrefix('singRIGHT', 	'right', 24, false);
+
+				scale.set(2,2);
+			
+			case "senpai" | "senpai-angry":
+				frames = Paths.getSparrowAtlas("characters/senpai/senpai");
+				
+				if(curChar == "senpai") {
+					animation.addByPrefix('idle', 		'Senpai Idle instance 1', 		24, false);
+					animation.addByPrefix('singLEFT', 	'SENPAI LEFT NOTE instance 1', 	24, false);
+					animation.addByPrefix('singDOWN', 	'SENPAI DOWN NOTE instance 1', 	24, false);
+					animation.addByPrefix('singUP', 	'SENPAI UP NOTE instance 1', 	24, false);
+					animation.addByPrefix('singRIGHT', 	'SENPAI RIGHT NOTE instance 1',	24, false);
+				} else {
+					animation.addByPrefix('idle', 		'Angry Senpai Idle instance 1', 		24, false);
+					animation.addByPrefix('singLEFT', 	'Angry Senpai LEFT NOTE instance 1', 	24, false);
+					animation.addByPrefix('singDOWN', 	'Angry Senpai DOWN NOTE instance 1', 	24, false);
+					animation.addByPrefix('singUP', 	'Angry Senpai UP NOTE instance 1', 		24, false);
+					animation.addByPrefix('singRIGHT', 	'Angry Senpai RIGHT NOTE instance 1',	24, false);
+				}
+				
+				antialiasing = false;
+				isPixelSprite = true;
+				scale.set(6,6);
+				
+			case "spirit":
+				frames = Paths.getPackerAtlas("characters/senpai/spirit");
+				
+				animation.addByPrefix('idle', 		"idle spirit_", 24, true);
+				animation.addByPrefix('singLEFT', 	"left_", 		24, false);
+				animation.addByPrefix('singDOWN', 	"spirit down_", 24, false);
+				animation.addByPrefix('singUP', 	"up_", 			24, false);
+				animation.addByPrefix('singRIGHT', 	"right_", 		24, false);
+				
+				antialiasing = false;
+				isPixelSprite = true;
+				scale.set(6,6);
+
+			case "bf-pixel":
+				frames = Paths.getSparrowAtlas("characters/bf-pixel/bfPixel");
+
+				animation.addByPrefix('idle', 			'BF IDLE', 		24, false);
+				animation.addByPrefix('singUP', 		'BF UP NOTE', 	24, false);
+				animation.addByPrefix('singLEFT', 		'BF LEFT NOTE', 24, false);
+				animation.addByPrefix('singRIGHT', 		'BF RIGHT NOTE',24, false);
+				animation.addByPrefix('singDOWN', 		'BF DOWN NOTE', 24, false);
+				animation.addByPrefix('singUPmiss', 	'BF UP MISS', 	24, false);
+				animation.addByPrefix('singLEFTmiss', 	'BF LEFT MISS', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 	'BF RIGHT MISS',24, false);
+				animation.addByPrefix('singDOWNmiss', 	'BF DOWN MISS', 24, false);
+
+				flipX = true;
+				antialiasing = false;
+				isPixelSprite = true;
+				scale.set(6,6);
+
+				deathChar = "bf-pixel-dead";
+				if(isPlayer)
+					Paths.preloadGraphic("characters/bf-pixel/bfPixelsDEAD");
+
+			case "bf-pixel-dead":
+				frames = Paths.getSparrowAtlas("characters/bf-pixel/bfPixelsDEAD");
+
+				animation.addByPrefix('firstDeath', 	"BF Dies pixel",24, false);
+				animation.addByPrefix('deathLoop', 		"Retry Loop", 	24, true);
+				animation.addByPrefix('deathConfirm', 	"RETRY CONFIRM",24, false);
+				animation.play('firstDeath');
+
+				idleAnims = ["firstDeath"];
+
+				flipX = true;
+				scale.set(6,6);
+				antialiasing = false;
+				isPixelSprite = true;
+				
+			case "gf-pixel":
+				frames = Paths.getSparrowAtlas("characters/gf-pixel/gfPixel");
+				
+				animation.addByIndices('danceLeft',  'GF IDLE', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+				animation.addByIndices('danceRight', 'GF IDLE', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+				
+				idleAnims = ["danceLeft", "danceRight"];
+				
+				scale.set(6,6);
+				antialiasing = false;
+				isPixelSprite = true;
+				quickDancer = true;
+				flipX = isPlayer;
+			
+			case 'luano-day'|'luano-night':
+				frames = Paths.getSparrowAtlas('characters/luano/luano');
+
+				var pref:String = (curChar == 'luano-night') ? 'night ' : '';
+
+				animation.addByPrefix('idle', 		'${pref}idle', 24, false);
+				animation.addByPrefix('singLEFT', 	'${pref}left', 24, false);
+				animation.addByPrefix('singDOWN', 	'${pref}down', 24, false);
+				animation.addByPrefix('singUP', 	'${pref}up',   24, false);
+				animation.addByPrefix('singRIGHT', 	'${pref}right',24, false);
+				animation.addByPrefix('jump', 		'${pref}jump',24, false);
+
+				holdLoop = 0;
+			
+			case 'spooky'|'spooky-player':
+				frames = Paths.getSparrowAtlas('characters/spooky/SpookyKids');
+
+				animation.addByIndices('danceLeft',	'Idle', [0,2,4,8], 		"", 12, false);
+				animation.addByIndices('danceRight','Idle', [10,12,14,16], 	"", 12, false);
+				var leftRight:Array<String> = ['singLEFT','singRIGHT'];
+				if(curChar == 'spooky-player')
+					leftRight.reverse();
+				animation.addByPrefix('${leftRight[0]}','SingLEFT', 24, false);
+				animation.addByPrefix('singDOWN', 		'SingDOWN', 24, false);
+				animation.addByPrefix('singUP', 		'SingUP',   24, false);
+				animation.addByPrefix('${leftRight[1]}','SingRIGHT',24, false);
+				
+				idleAnims = ["danceLeft", "danceRight"];
+				quickDancer = true;
+				
 			case "bf":
 				frames = Paths.getSparrowAtlas("characters/bf/BOYFRIEND");
 
@@ -83,10 +210,17 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-			case "gf":
+			case "gf" | "gf-tutorial":
 				// GIRLFRIEND CODE
-				frames = Paths.getSparrowAtlas('characters/gf/GF_assets');
+				frames = Paths.getSparrowAtlas('characters/gf/GF_assets' + ((curChar == "gf-tutorial") ? "_singer" : ""));
 				animation.addByPrefix('cheer', 'GF Cheer', 24, false);
+				if(curChar == 'gf-tutorial')
+				{
+					animation.addByPrefix('singLEFT', 	'GF left note', 24, false);
+					animation.addByPrefix('singRIGHT', 	'GF Right Note', 24, false);
+					animation.addByPrefix('singUP', 	'GF Up Note', 24, false);
+					animation.addByPrefix('singDOWN', 	'GF Down Note', 24, false);
+				}
 				animation.addByIndices('sad', 		'gf sad', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, false);
 				animation.addByIndices('danceLeft', 'GF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				animation.addByIndices('danceRight','GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -155,7 +289,7 @@ class Character extends FlxSprite
 
 	public function dance(forced:Bool = false)
 	{
-		if(specialAnim) return;
+		if(specialAnim > 0) return;
 
 		switch(curChar)
 		{
@@ -174,6 +308,12 @@ class Character extends FlxSprite
 		if(animation.getByName(animation.curAnim.name + '-loop') != null)
 			if(animation.curAnim.finished)
 				playAnim(animation.curAnim.name + '-loop');
+		
+		if(specialAnim == 2 && animation.curAnim.finished)
+		{
+			specialAnim = 0;
+			dance();
+		}
 	}
 
 	// animation handler
@@ -184,8 +324,10 @@ class Character extends FlxSprite
 
 	public function playAnim(animName:String, ?forced:Bool = false, ?reversed:Bool = false, ?frame:Int = 0)
 	{
+		if(!animation.exists(animName)) return;
+		
 		animation.play(animName, forced, reversed, frame);
-
+		
 		try
 		{
 			var daOffset = animOffsets.get(animName);

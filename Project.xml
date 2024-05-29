@@ -3,8 +3,8 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="kiwami means extreme" file="DEKiwami" main="Main" version="3.2.0" company="teles" />
-
+	<app title="FNF: Doido Engine" file="Funkin Doido" main="Main" version="3.2.1" company="DiogoTV" />
+	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
 	<app preloader="flixel.system.FlxPreloader" />
@@ -39,7 +39,7 @@
 
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
 	<define name="PRELOAD_SONG" if="desktop" unless="debug" />
-
+	
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
