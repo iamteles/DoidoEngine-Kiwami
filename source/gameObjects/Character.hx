@@ -4,7 +4,7 @@ package gameObjects;
 //import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
-import data.CharacterData.DoidoOffsets;
+import data.CharacterData;
 
 using StringTools;
 
@@ -34,6 +34,8 @@ class Character extends FlxSprite
 	public var cameraOffset:FlxPoint = new FlxPoint();
 	public var ratingsOffset:FlxPoint = new FlxPoint();
 	private var scaleOffset:FlxPoint = new FlxPoint();
+	
+	var characterType:CharacterType = DOIDO;
 
 	public function reloadChar(curChar:String = "bf"):Character
 	{
@@ -57,6 +59,9 @@ class Character extends FlxSprite
 		ratingsOffset.set();
 
 		animOffsets = []; // reset it
+
+		if(Paths.fileExists('images/characters/_offsets/${curChar}-psych.json'))
+			characterType = PSYCH;
 
 		// what
 		switch(curChar)
@@ -116,7 +121,8 @@ class Character extends FlxSprite
 				animation.addByIndices('singLEFT-loop', 'Dad Sing Note LEFT',  [3,4,5,6], "", 24, true);
 
 			default:
-				return reloadChar(isPlayer ? "bf" : "dad");
+				if(characterType != PSYCH)
+					return reloadChar(isPlayer ? "bf" : "dad");
 		}
 		
 		// offset gettin'
@@ -124,18 +130,59 @@ class Character extends FlxSprite
 		{
 			default:
 				try {
-					var charData:DoidoOffsets = cast Paths.json('images/characters/_offsets/${curChar}');
+					switch(characterType) {
+						case PSYCH:
+							var charData:PsychOffsets = cast Paths.json('images/characters/_offsets/${curChar}-psych');
+
+							frames = Paths.getSparrowAtlas(charData.image);
+
+							if(charData.animations != null) {
+								for (anim in charData.animations)
+								{
+									if(anim.indices != null && anim.indices.length > 0) {
+										animation.addByIndices(anim.anim, anim.name, anim.indices, "", anim.fps, anim.loop);
+									} else {
+										animation.addByPrefix(anim.anim, anim.name, anim.fps, anim.loop);
+									}
+									if(anim.offsets != null && anim.offsets.length > 1) {
+										addOffset(anim.anim, anim.offsets[0], anim.offsets[1]);
+									}
+								}
+							}
+
+							flipX = charData.flip_x;
+
+							if(charData.scale != 1) {
+								setGraphicSize(Std.int(width * charData.scale));
+								updateHitbox();
+							}
+
+							globalOffset.set(charData.position[0], charData.position[1]);
+							cameraOffset.set(charData.camera_position[0], charData.camera_position[1]);
+							if(charData.rating_position != null)
+								ratingsOffset.set(charData.rating_position[0], charData.rating_position[1]);
+							else
+								ratingsOffset.set(0, 0);
+
+							if(animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null) {
+								quickDancer = true;
+								idleAnims = ['danceLeft', 'danceRight'];
+							}
+						default:
+							var charData:DoidoOffsets = cast Paths.json('images/characters/_offsets/${curChar}');
 					
-					for(i in 0...charData.animOffsets.length)
-					{
-						var animData:Array<Dynamic> = charData.animOffsets[i];
-						addOffset(animData[0], animData[1], animData[2]);
+							for(i in 0...charData.animOffsets.length)
+							{
+								var animData:Array<Dynamic> = charData.animOffsets[i];
+								addOffset(animData[0], animData[1], animData[2]);
+							}
+							globalOffset.set(charData.globalOffset[0], charData.globalOffset[1]);
+							cameraOffset.set(charData.cameraOffset[0], charData.cameraOffset[1]);
+							ratingsOffset.set(charData.ratingsOffset[0], charData.ratingsOffset[1]);
 					}
-					globalOffset.set(charData.globalOffset[0], charData.globalOffset[1]);
-					cameraOffset.set(charData.cameraOffset[0], charData.cameraOffset[1]);
-					ratingsOffset.set(charData.ratingsOffset[0], charData.ratingsOffset[1]);
+
 				} catch(e) {
-					trace('$curChar offsets not found');
+					trace('$curChar offset error ' + e);
 				}
 		}
 		

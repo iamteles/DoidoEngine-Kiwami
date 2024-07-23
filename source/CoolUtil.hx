@@ -38,8 +38,11 @@ class CoolUtil
 
 		var jsons = Paths.readDir("images/characters/_offsets/", ".json", true);
 		for(char in jsons) {
-			if(!list.contains(char))
+			if(!list.contains(char)) {
+				if(char.endsWith("-psych"))
+					char = char.replace("-psych", "");
 				list.push(char);
+			}
 		}
 		return list;
 	}

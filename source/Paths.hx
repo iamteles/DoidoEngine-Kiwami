@@ -161,6 +161,16 @@ class Paths
 		return Json.parse(rawJson);
 	}
 
+	public static function jsonFromContent(content:String):Dynamic
+	{
+		var rawJson = content;
+
+		while(!rawJson.endsWith("}"))
+			rawJson = rawJson.substr(0, rawJson.length - 1);
+
+		return Json.parse(rawJson);
+	}	
+
 	public static function video(key:String):String
 	{
 		return getPath('videos/$key.mp4');
