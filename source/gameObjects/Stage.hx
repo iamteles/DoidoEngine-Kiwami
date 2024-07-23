@@ -49,9 +49,9 @@ class Stage extends FlxGroup
 		this.clear();
 		foreground.clear();
 		
-		gfPos.set(650, 550);
-		dadPos.set(100,700);
-		bfPos.set(850, 700);
+		gfPos.set(300, 100);
+		dadPos.set(100,100);
+		bfPos.set(770, 450);
 		gfVersion = "placeholder";
 		// setting gf to "placeholder" makes her invisible
 		// consider your place held B)
@@ -65,19 +65,20 @@ class Stage extends FlxGroup
 				this.curStage = "stage";
 				PlayState.camZoom = 0.9;
 				
-				var bg = new FlxSprite(-600, -600).loadGraphic(Paths.image("backgrounds/stage/stageback"));
-				bg.scrollFactor.set(0.6,0.6);
+				var bg = new FlxSprite(-600, -200).loadGraphic(Paths.image("backgrounds/stage/stageback"));
+				bg.scrollFactor.set(0.9,0.9);
 				add(bg);
 				
-				var front = new FlxSprite(-580, 440);
+				var front = new FlxSprite(-650, 600);
 				front.loadGraphic(Paths.image("backgrounds/stage/stagefront"));
+				front.scrollFactor.set(0.9,0.9);
 				add(front);
 
 				if(!SaveData.data.get("Low Quality")){
 					gfVersion = "gf";
 
-					var curtains = new FlxSprite(-600, -400).loadGraphic(Paths.image("backgrounds/stage/stagecurtains"));
-					curtains.scrollFactor.set(1.4,1.4);
+					var curtains = new FlxSprite(-650, -500).loadGraphic(Paths.image("backgrounds/stage/stagecurtains"));
+					curtains.scrollFactor.set(1.3,1.3);
 					foreground.add(curtains);
 				}
 		}

@@ -1545,6 +1545,16 @@ class PlayState extends MusicBeatState
 		#end
 		stageBuild.stepHit(curStep);
 		syncSong();
+
+		switch(SONG.song) {
+			case "dadbattle":
+				switch(curStep) {
+					case 16:
+						changeChar(dad, "bf");
+					case 32:
+						changeChar(dad, "dad");
+				}
+		}
 	}
 
 	public function syncSong():Void
@@ -1668,14 +1678,14 @@ class PlayState extends MusicBeatState
 		// gets the original position
 		var storedPos = new FlxPoint(
 			char.x - char.globalOffset.x,
-			char.y + char.height - char.globalOffset.y
+			char.y - char.globalOffset.y
 		);
 		// changes the character
 		char.reloadChar(newChar);
 		// returns it to the correct position
 		char.setPosition(
 			storedPos.x + char.globalOffset.x,
-			storedPos.y - char.height + char.globalOffset.y
+			storedPos.y + char.globalOffset.y
 		);
 
 		if(iconToo)
@@ -1683,19 +1693,6 @@ class PlayState extends MusicBeatState
 			// updating icons
 			var daID:Int = (char.isPlayer ? 1 : 0);
 			hudBuild.changeIcon(daID, char.curChar);
-		}
-		
-		var evilTrail = char._dynamic["evilTrail"];
-		if(evilTrail != null)
-		{
-			remove(evilTrail);
-			evilTrail = null;
-		}
-		switch(newChar)
-		{
-			case 'spirit':
-				evilTrail = new FlxTrail(char, null, 4, 24, 0.3, 0.069);
-				add(evilTrail);
 		}
 	}
 
@@ -1705,22 +1702,18 @@ class PlayState extends MusicBeatState
 		stageBuild.reloadStage(newStage);
 		
 		// gfpos
-		if(stageBuild.gfVersion == "") {
+		if(stageBuild.gfVersion == "placeholder") {
 			changeChar(gf, "gf", false);
 			gf.visible = false;
 		} else {
 			changeChar(gf, stageBuild.gfVersion, false);
 			gf.setPosition(stageBuild.gfPos.x, stageBuild.gfPos.y);
-			gf.x -= gf.width / 2;
-			gf.y -= gf.height;
 			gf.visible = true;
 		}
 
 		dad.setPosition(stageBuild.dadPos.x, stageBuild.dadPos.y);
-		dad.y -= dad.height;
 
 		boyfriend.setPosition(stageBuild.bfPos.x, stageBuild.bfPos.y);
-		boyfriend.y -= boyfriend.height;
 
 		for(char in [gf, dad, boyfriend])
 		{
