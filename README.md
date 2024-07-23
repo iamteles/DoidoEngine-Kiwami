@@ -1,6 +1,6 @@
 # DOIDO ENGINE - KIWAMI FORK
 <p align="center">
-<img src="https://www.newgrounds.com/dump/draw/27ed38c719b9761af970cac60f441e21">
+<img src="https://cdn.discordapp.com/attachments/593429638026625026/1239708091247886336/at.png?ex=66a0d961&is=669f87e1&hm=7e78dc8b0622031f5950a00431acab3a29ce5c613dca2fb96b3fe90623cf1111&">
 </p>
 
 ## An optimized, simpler fork of Doido Engine, geared towards higher customization on a mod to mod basis!
