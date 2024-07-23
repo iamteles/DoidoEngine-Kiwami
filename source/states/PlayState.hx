@@ -1546,6 +1546,7 @@ class PlayState extends MusicBeatState
 		stageBuild.stepHit(curStep);
 		syncSong();
 
+		/*
 		switch(SONG.song) {
 			case "dadbattle":
 				switch(curStep) {
@@ -1555,6 +1556,7 @@ class PlayState extends MusicBeatState
 						changeChar(dad, "dad");
 				}
 		}
+		*/
 	}
 
 	public function syncSong():Void
