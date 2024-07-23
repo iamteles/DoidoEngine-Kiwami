@@ -11,12 +11,12 @@
 - Less bloated overall, removing all the test songs and characters
 - Removed basegame menus in favor of a simple DebugMenu
 - Low Quality option used to toggle stage assets in order to decrease memory usage
+- Support for CD stage json files
 
 ### Upcoming features
 - Native android support
 - Support for video playback, using hxvlc
 - Support for Psych Engine character json files
-- Support for CD stage json files
 - Support for Psych Engine and FE Underscore event json files
 
 ### VERSIONS NECESSARY
