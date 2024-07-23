@@ -3,7 +3,21 @@
 <img src="https://cdn.discordapp.com/attachments/593429638026625026/1239708091247886336/at.png?ex=66a0d961&is=669f87e1&hm=7e78dc8b0622031f5950a00431acab3a29ce5c613dca2fb96b3fe90623cf1111&">
 </p>
 
-## An optimized, simpler fork of Doido Engine, geared towards higher customization on a mod to mod basis!
+## An optimized, simpler fork of Doido Engine 3.2.1, geared towards higher customization on a mod to mod basis!
+
+### New features
+- Developer Options that can be toggled in Source
+- Customizable camera movement, including note movement, note rotation, and beat zoom configuration
+- Less bloated overall, removing all the test songs and characters
+- Removed basegame menus in favor of a simple DebugMenu
+- Low Quality option used to toggle stage assets in order to decrease memory usage
+
+### Upcoming features
+- Native android support
+- Support for video playback, using hxvlc
+- Support for Psych Engine character json files
+- Support for CD stage json files
+- Support for Psych Engine and FE Underscore event json files
 
 ### VERSIONS NECESSARY
 ```
