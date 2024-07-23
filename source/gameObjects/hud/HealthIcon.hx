@@ -14,6 +14,7 @@ class HealthIcon extends FlxSprite
 	public var isPlayer:Bool = false;
 	public var curIcon:String = "";
 	public var maxFrames:Int = 0;
+	public var healthColor:FlxColor;
 
 	public function setIcon(curIcon:String = "face", isPlayer:Bool = false):HealthIcon
 	{
@@ -25,6 +26,11 @@ class HealthIcon extends FlxSprite
 			else
 				return setIcon("face", isPlayer);
 		}
+
+		if(DevOptions.autoHealthColor) 
+			healthColor = FlxColor.fromInt(CoolUtil.dominantColor(this));
+		else
+			healthColor = getColor(curIcon);
 
 		var iconGraphic = Paths.image("icons/icon-" + curIcon);
 
@@ -71,15 +77,7 @@ class HealthIcon extends FlxSprite
 		var colorMap:Map<String, FlxColor> = [
 			"face" 		=> 0xFFA1A1A1,
 			"bf" 		=> 0xFF31B0D1,
-			"gf"		=> 0xFFA5004D,
 			"dad"		=> 0xFFAF66CE,
-			"spooky"	=> 0xFFD57E00,
-			"luano"		=> 0xFFFFC03F,
-			"luano-night"=> 0xFFB5A5F0,
-			// pixel guys
-			"bf-pixel"	=> 0xFF7BD6F6,
-			"senpai"	=> 0xFFFFAA6F,
-			"spirit"	=> 0xFFFF3C6E,
 		];
 
 		function loopMap()

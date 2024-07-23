@@ -30,11 +30,18 @@ class CoolUtil
 
 	public static function charList():Array<String>
 	{
-		return [
+		var list:Array<String> = [
 			"dad",
 			"gf",
 			"bf",
 		];
+
+		var jsons = Paths.readDir("images/characters/_offsets/", ".json", true);
+		for(char in jsons) {
+			if(!list.contains(char))
+				list.push(char);
+		}
+		return list;
 	}
 
 	public static function coolTextFile(key:String):Array<String>
@@ -95,6 +102,9 @@ class CoolUtil
 	// NOTE STUFF
 	inline public static function getDirection(i:Int)
 		return ["left", "down", "up", "right"][i];
+
+	inline public static function getColor(i:Int)
+		return ["purple", "blue", "green", "red"][i];
 	
 	inline public static function noteWidth()
 		return (160 * 0.7); // 112
@@ -211,5 +221,33 @@ class CoolUtil
 				color.alphaFloat = 0.4;
 		}
 		camera.flash(color, duration, null, true);
+	}
+
+	inline public static function dominantColor(sprite:flixel.FlxSprite):Int
+	{
+		var countByColor:Map<Int, Int> = [];
+		for(col in 0...sprite.frameWidth) {
+			for(row in 0...sprite.frameHeight) {
+				var colorOfThisPixel:Int = sprite.pixels.getPixel32(col, row);
+				if(colorOfThisPixel != 0) {
+					if(countByColor.exists(colorOfThisPixel))
+						countByColor[colorOfThisPixel] = countByColor[colorOfThisPixel] + 1;
+					else if(countByColor[colorOfThisPixel] != 13520687 - (2*13520687))
+						countByColor[colorOfThisPixel] = 1;
+				}
+			}
+		}
+
+		var maxCount = 0;
+		var maxKey:Int = 0; //after the loop this will store the max color
+		countByColor[FlxColor.BLACK] = 0;
+		for(key in countByColor.keys()) {
+			if(countByColor[key] >= maxCount) {
+				maxCount = countByColor[key];
+				maxKey = key;
+			}
+		}
+		countByColor = [];
+		return maxKey;
 	}
 }

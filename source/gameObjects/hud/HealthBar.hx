@@ -73,8 +73,8 @@ class HealthBar extends FlxGroup
 		
 		icon.setIcon(newChar, icon.isPlayer);
 		
-		sideL.color = HealthIcon.getColor(icons[0].curIcon);
-		sideR.color = HealthIcon.getColor(icons[1].curIcon);
+		sideL.color = icons[0].healthColor;
+		sideR.color = icons[1].healthColor;
 	}
 	
 	public function updateIconPos()
