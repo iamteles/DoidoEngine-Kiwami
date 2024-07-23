@@ -1,0 +1,29 @@
+{
+    "zoom": 0.9,
+    "gfPos": [650, 550, 0, 0],
+    "bfPos": [850, 700, 0, 0],
+    "dadPos": [100,700, 0, 0],
+    "objects": [
+        {
+            "objName": "bg",
+            "path": "backgrounds/stage/stageback",
+            "position": [-600, -600],
+            "scrollFactor": [0.6,0.6],
+            "lq": true
+        },
+        {
+            "objName": "front",
+            "path": "backgrounds/stage/stagefront",
+            "position": [-580, 440],
+            "scrollFactor": [1, 1],
+            "lq": true
+        },
+        {
+            "objName": "curtains",
+            "path": "backgrounds/stage/stagecurtains",
+            "position": [-600, -400],
+            "scrollFactor": [1.4,1.4],
+            "lq": false
+        }
+    ]
+}

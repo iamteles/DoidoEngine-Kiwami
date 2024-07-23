@@ -9,4 +9,6 @@ class DevOptions {
     public static var splitHolds = false;
     public static var songTimer = true;
     public static var autoHealthColor = true;
+
+    public static var stageJsons = true;
 } 

@@ -1417,16 +1417,18 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
-	
-	var camDisplaceX:Float;
-	var camDisplaceY:Float;
+
+	//cam related biz
+	var camDisplace:FlxPoint = new FlxPoint(0,0);
 	var cameraMoveItensity:Float = 25;
+
 	var camMaxAngle:Float = 0; //0.5
 	var camAngle:Float = 0;
 
 	public static var zoomOpp:Float = 0;
 	public static var beatSpeed:Int = 4;
 	public static var beatZoom:Float = 0;
+	
 	var doBeat:Bool = true;
 
 	public function followCamSection(sect:SwagSection):Void
@@ -1455,41 +1457,49 @@ class PlayState extends MusicBeatState
 				switch (char.animation.curAnim.name)
 				{
 					case 'singLEFT':
-						camDisplaceX = - cameraMoveItensity;
-						camDisplaceY = 0;
+						camDisplace.x = - cameraMoveItensity;
+						camDisplace.y = 0;
 						camAngle = -camMaxAngle;
 					case 'singRIGHT':
-						camDisplaceX = cameraMoveItensity;
-						camDisplaceY = 0;
+						camDisplace.x = cameraMoveItensity;
+						camDisplace.y = 0;
 						camAngle = camMaxAngle;
 					case 'singUP':
-						camDisplaceX = 0;
-						camDisplaceY = -cameraMoveItensity;
+						camDisplace.x = 0;
+						camDisplace.y = -cameraMoveItensity;
 						camAngle = 0;
 					case 'singDOWN':
-						camDisplaceX = 0;
-						camDisplaceY = cameraMoveItensity;
+						camDisplace.x = 0;
+						camDisplace.y = cameraMoveItensity;
 						camAngle = 0;
 					default:
-						camDisplaceX = 0;
-						camDisplaceY = 0;
+						camDisplace.x = 0;
+						camDisplace.y = 0;
 						camAngle = 0;
 				}
 			}
 
 			var playerMult:Int = (char.isPlayer ? -1 : 1);
 
+			var which:FlxPoint = (char.isPlayer ? stageBuild.bfCam : stageBuild.dadCam);
+	
+			if(char == gf)
+				which = stageBuild.gfCam;
+
 			camFollow.setPosition(char.getMidpoint().x + (200 * playerMult), char.getMidpoint().y - 20);
 
 			camFollow.x += char.cameraOffset.x * playerMult;
 			camFollow.y += char.cameraOffset.y;
+
+			camFollow.x += which.x;
+			camFollow.y += which.y;
 		}
 
 		camFollow.x += offsetX;
 		camFollow.y += offsetY;
 
-		camFollow.x += camDisplaceX;
-		camFollow.y += camDisplaceY;
+		camFollow.x += camDisplace.x;
+		camFollow.y += camDisplace.y;
 	}
 
 	override function beatHit()
@@ -1502,10 +1512,8 @@ class PlayState extends MusicBeatState
 		}
 		hudBuild.beatHit(curBeat);
 		
-		if(curBeat % beatSpeed == 0)
-		{
+		if(curBeat % beatSpeed == 0 && doBeat)
 			zoomCamera(0.05 + beatZoom, 0.025 + beatZoom);
-		}
 		for(char in characters)
 		{
 			if(curBeat % 2 == 0 || char.quickDancer)
