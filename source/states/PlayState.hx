@@ -613,7 +613,7 @@ class PlayState extends MusicBeatState
 
 		if(thisChar != null && !note.isHold)
 		{
-			if(note.noteType != "no animation" && thisChar.specialAnim != 2)
+			if(note.noteType != "no animation" && thisChar.specialAnim != 2 && thisChar.specialAnim != 3)
 			{
 				thisChar.specialAnim = 0;
 				thisChar.playAnim(singAnims[note.noteData], true);
@@ -647,7 +647,7 @@ class PlayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('miss/missnote' + FlxG.random.int(1, 3)), 0.55);
 			
 			if(thisChar != null && note.noteType != "no animation"
-			&& thisChar.specialAnim != 2)
+			&& thisChar.specialAnim != 2 && thisChar.specialAnim != 3)
 			{
 				thisChar.specialAnim = 0;
 				thisChar.playAnim(singAnims[note.noteData] + 'miss', true);
@@ -693,7 +693,7 @@ class PlayState extends MusicBeatState
 		
 		if(note.gotHit || thisChar == null) return;
 		
-		if(note.noteType != "no animation" && thisChar.specialAnim != 2)
+		if(note.noteType != "no animation" && thisChar.specialAnim != 2 && thisChar.specialAnim != 3)
 		{
 			if(thisChar.animation.curAnim.curFrame == thisChar.holdLoop
 			|| DevOptions.staticHoldAnim)
@@ -984,21 +984,31 @@ class PlayState extends MusicBeatState
 				#if debug
 				trace('${daEvent.eventName} // ${daEvent.value1} // ${daEvent.value2} // ${daEvent.value3}');
 				#end
-				switch(daEvent.eventName)
+				switch(daEvent.eventName.toLowerCase())
 				{
-					case 'Play Animation':
+					case 'play animation':
 						var char = strToChar(daEvent.value1);
-						char.specialAnim = ((daEvent.value3.toLowerCase() == 'true') ? 2 : 1);
+						
+						var specialAnim:Int = 1;
+
+						switch(daEvent.value3.toLowerCase()) {
+							case "true" | "false":
+								specialAnim = ((daEvent.value3.toLowerCase() == 'true') ? 2 : 1);
+							default:
+								specialAnim = Std.parseInt(daEvent.value3);
+						}
+
+						char.specialAnim = specialAnim;
 						char.playAnim(daEvent.value2, true);
 
-					case 'Change Character':
+					case 'change character':
 						var char = strToChar(daEvent.value1);
 						changeChar(char, daEvent.value2, (char != gf));
 					
-					case 'Change Stage':
+					case 'change stage':
 						changeStage(daEvent.value1);
 					
-					case 'Freeze Notes':
+					case 'freeze notes':
 						var affected:Array<Strumline> = [dadStrumline, bfStrumline];
 						switch(daEvent.value2) {
 							case "dad": affected.remove(bfStrumline);
@@ -1007,7 +1017,7 @@ class PlayState extends MusicBeatState
 						for(strumline in affected)
 							strumline.pauseNotes = (daEvent.value1 == 'true');
 
-					case 'Change Note Speed':
+					case 'change note speed' | 'change scrollspeed':
 						for(strumline in strumlines)
 						{
 							if(strumline.scrollTween != null)
@@ -1022,7 +1032,7 @@ class PlayState extends MusicBeatState
 							{
 								strumline.scrollTween = FlxTween.tween(
 									strumline, {scrollSpeed: Std.parseFloat(daEvent.value1)},
-									Std.parseFloat(daEvent.value2) * Conductor.stepCrochet / 1000,
+									Std.parseFloat(daEvent.value2),
 									{
 										ease: CoolUtil.stringToEase(daEvent.value3),
 									}
@@ -1030,31 +1040,40 @@ class PlayState extends MusicBeatState
 							}
 						}
 
-					case 'Change Cam Zoom':
-						if(camZoomTween != null) camZoomTween.cancel();
+					case 'change zoom' | 'change cam zoom':
 						var newZoom:Float = Std.parseFloat(daEvent.value1);
-						var duration:Float = Std.parseFloat(daEvent.value2);
 						if(!Std.isOfType(newZoom, Float)) newZoom = 1;
-						if(!Std.isOfType(duration, Float)) duration = 4;
-						if(duration <= 0)
-							camZoom = newZoom;
-						else
-						{
-							camZoomTween = FlxTween.tween(
-								PlayState, {camZoom: newZoom},
-								duration * Conductor.stepCrochet / 1000,
-								{
-									ease: CoolUtil.stringToEase(daEvent.value3),
-								}
-							);
-						}
+						camZoom = newZoom;
 					
-					case 'Flash Screen':
+					case 'flash camera':
 						CoolUtil.flash(
-							camGame,
-							Conductor.stepCrochet / 1000 * Std.parseFloat(daEvent.value1),
+							stringToCam(daEvent.value3),
+							Std.parseFloat(daEvent.value1),
 							CoolUtil.stringToColor(daEvent.value2)
 						);
+
+					case 'ui opacity':
+						var inorout:Float = Std.parseFloat(daEvent.value1);
+						var time:Float = Std.parseFloat(daEvent.value2);
+						var cam:FlxCamera = stringToCam(daEvent.value3);
+						FlxTween.tween(cam, {alpha: inorout}, time, {ease: FlxEase.sineInOut});
+					
+					case 'camera position':
+						var x:Float = Std.parseFloat(daEvent.value1);
+						var y:Float = Std.parseFloat(daEvent.value2);
+						var camSpeed:Float = Std.parseFloat(daEvent.value3);
+
+						cameraSpeed = camSpeed;
+
+						if(x == 0 && y == 0)
+							forcedCamPos = null;
+						else {
+							forcedCamPos = new FlxPoint(
+								x,
+								y
+							);
+						}
+
 				}
 				eventCount++;
 			}
@@ -1426,6 +1445,7 @@ class PlayState extends MusicBeatState
 	var camAngle:Float = 0;
 
 	public static var zoomOpp:Float = 0;
+	public static var zoomPl:Float = 0;
 	public static var beatSpeed:Int = 4;
 	public static var beatZoom:Float = 0;
 	
@@ -1441,7 +1461,7 @@ class PlayState extends MusicBeatState
 			var mustHit:Bool = sect.mustHitSection;
 
 			if(mustHit) {
-				extraCamZoom = 0;
+				extraCamZoom = zoomPl;
 				followCamera(bfStrumline.character);
 			}
 		}
@@ -1834,5 +1854,15 @@ class PlayState extends MusicBeatState
 	{
 		SONG = SongData.loadFromJson(song, songDiff);
 		EVENTS = SongData.loadEventsJson(song, songDiff);
+	}
+
+	function stringToCam(str:String):FlxCamera {
+		return switch(str.toLowerCase())
+		{
+			default: camGame;
+			case 'camhud': camHUD;
+			case 'camstrum': camStrum;
+			case 'camother': camOther;
+		}
 	}
 }
