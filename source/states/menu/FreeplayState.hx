@@ -19,6 +19,7 @@ import gameObjects.menu.AlphabetMenu;
 import gameObjects.hud.HealthIcon;
 import states.*;
 import subStates.DeleteScoreSubState;
+import states.editors.ChartingState;
 
 using StringTools;
 
@@ -135,6 +136,38 @@ class FreeplayState extends MusicBeatState
 		{
 			DeleteScoreSubState.deletedScore = false;
 			updateScoreCount();
+		}
+
+		if(FlxG.keys.justPressed.SEVEN) {
+			PlayState.playList = [];
+			PlayState.songDiff = CoolUtil.getDiffs()[curDiff];
+			PlayState.loadSong(songList[curSelected][0]);
+
+			if(ChartingState.SONG.song != PlayState.SONG.song)
+				ChartingState.curSection = 0;
+			
+			ChartingState.songDiff = PlayState.songDiff;
+
+			ChartingState.SONG = PlayState.SONG;
+			ChartingState.EVENTS = PlayState.EVENTS;
+
+			Main.switchState(new ChartingState());
+		}
+
+		if(FlxG.keys.justPressed.EIGHT) {
+			PlayState.playList = [];
+			PlayState.songDiff = CoolUtil.getDiffs()[curDiff];
+			PlayState.loadSong(songList[curSelected][0]);
+
+			if(ChartingState.SONG.song != PlayState.SONG.song)
+				ChartingState.curSection = 0;
+			
+			ChartingState.songDiff = PlayState.songDiff;
+
+			ChartingState.SONG = PlayState.SONG;
+			ChartingState.EVENTS = PlayState.EVENTS;
+
+			Main.switchState(new ChartingState());
 		}
 
 		if(Controls.justPressed("ACCEPT"))
