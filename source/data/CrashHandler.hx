@@ -103,7 +103,7 @@ class CrashHandler extends Sprite
             @:privateAccess
             Main.instance.game._viewingCrash = false;
             
-            FlxG.switchState(new states.menu.MainMenuState());
+            FlxG.switchState(new states.DebugState());
         }
         if(e.keyCode == Keyboard.ENTER)
         {

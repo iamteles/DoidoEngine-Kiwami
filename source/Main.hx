@@ -18,7 +18,7 @@ class Main extends Sprite
 {
 	public static var fpsCount:FPSCounter;
 
-	public static final savePath:String = "DiogoTV/DoidoEngine";
+	public static final savePath:String = "teles/DEKiwami";
 
 	public static var instance:Main;
 	@:unreflective
