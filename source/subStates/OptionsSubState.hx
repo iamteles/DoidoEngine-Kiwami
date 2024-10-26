@@ -49,6 +49,7 @@ class OptionsSubState extends MusicBeatSubState
 		"graphics" => [
             "Resolution",
             "FPS Cap",
+            "GPU Caching",
             #if desktop
 			"Antialiasing",
             #end

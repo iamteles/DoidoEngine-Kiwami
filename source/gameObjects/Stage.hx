@@ -57,14 +57,14 @@ class Stage extends FlxGroup
 		gfVersion = getGfVersion(curStage);
 		// setting gf to "" makes her invisible
 		
-		PlayState.defaultCamZoom = 1.0;
+		PlayState.camZoom = 1.0;
 		
 		this.curStage = curStage;
 		switch(curStage)
 		{
 			default:
 				this.curStage = "stage";
-				PlayState.defaultCamZoom = 0.9;
+				PlayState.camZoom = 0.9;
 				
 				var bg = new FlxSprite(-600, -600).loadGraphic(Paths.image("backgrounds/stage/stageback"));
 				bg.scrollFactor.set(0.6,0.6);

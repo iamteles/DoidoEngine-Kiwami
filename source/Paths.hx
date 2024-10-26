@@ -13,6 +13,7 @@ import tjson.TJSON;
 
 using StringTools;
 
+@:access(openfl.display.BitmapData)
 class Paths
 {
 	public static var renderedGraphics:Map<String, FlxGraphic> = [];
@@ -86,7 +87,27 @@ class Paths
 				var bitmap = openfl.Assets.getBitmapData(path);
 				#end
 				
+				if(SaveData.data.get("GPU Caching")) {
+					bitmap.lock();
+					if (bitmap.__texture == null)
+					{
+						bitmap.image.premultiplied = true;
+						bitmap.getTexture(FlxG.stage.context3D);
+					}
+					bitmap.getSurface();
+					bitmap.disposeImage();
+					bitmap.image.data = null;
+					bitmap.image = null;
+					bitmap.readable = true;
+				}
+
 				var newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
+
+				if(SaveData.data.get("GPU Caching")) {
+					newGraphic.persist = true;
+					newGraphic.destroyOnNoUse = false;
+				}
+
 				trace('created new image $key');
 				
 				renderedGraphics.set(key, newGraphic);
@@ -135,6 +156,13 @@ class Paths
 			if(obj != null && !renderedGraphics.exists(key))
 			{
 				openfl.Assets.cache.removeBitmapData(key);
+				
+				if(SaveData.data.get("GPU Caching")) {
+					var graphic:FlxGraphic = FlxG.bitmap._cache.get(key);
+					if (graphic != null && graphic.bitmap != null && graphic.bitmap.__texture != null)
+						graphic.bitmap.__texture.dispose();
+				}
+
 				FlxG.bitmap._cache.remove(key);
 				obj.dump();
 				obj.destroy();

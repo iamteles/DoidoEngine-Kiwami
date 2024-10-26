@@ -114,7 +114,11 @@ class SaveData
 			CHECKMARK,
 			"Disabling it might increase the fps at the cost of smoother sprites"
 		],
-
+		"GPU Caching" => [
+			false,
+			CHECKMARK,
+			"Decides whether to load assets to the GPU or not."
+		],
 		/*
 		*
 		* EXTRA STUFF
