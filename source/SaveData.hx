@@ -23,7 +23,7 @@ class SaveData
 		* PREFERENCES
 		* 
 		*/
-		"Window Size" => [
+		"Resolution" => [
 			"1280x720",
 			SELECTOR,
 			"Change the game's resolution if it doesn't fit your monitor",
@@ -51,11 +51,6 @@ class SaveData
 			CHECKMARK,
 			"Freezes the game when unfocusing the window",
 		],
-		"Countdown on Unpause" => [
-			true,
-			CHECKMARK,
-			"Whether you want to have a countdown when unpausing the game",
-		],
 		'Discord RPC' => [
 			#if DISCORD_RPC
 			true,
@@ -80,16 +75,11 @@ class SaveData
 			CHECKMARK,
 			"Makes the notes go down instead of up"
 		],
-		"Middlescroll" => [
-			false,
-			CHECKMARK,
-			"Disables the opponent's notes and moves yours to the middle"
-		],
-		"Framerate Cap"	=> [
-			60, // 120
+		"FPS Cap"	=> [
+			"60",
 			SELECTOR,
-			"Self explanatory",
-			[30, 360]
+			"Ammount of frames being rendered in a second.",
+			["30", "60", "120", "144"]
 		],
 		'Hitsounds' => [
 			"OFF",
@@ -124,36 +114,22 @@ class SaveData
 			CHECKMARK,
 			"Disabling it might increase the fps at the cost of smoother sprites"
 		],
-		"Split Holds" => [
-			false,
-			CHECKMARK,
-			"Cuts the end of each hold note like classic engines did"
-		],
-		"Static Hold Anim" => [
-			true,
-			CHECKMARK,
-			"Whether the character stays static when playing a hold note."
-		],
-		"Single Rating" => [
-			false,
-			CHECKMARK,
-			"Makes only one rating appear at a time",
-		],
-		"Ratings on HUD" => [
-			true,
-			CHECKMARK,
-			"Makes the ratings stick on the HUD"
-		],
-		"Song Timer" => [
-			true,
-			CHECKMARK,
-			"Makes the song timer visible"
-		],
+
 		/*
 		*
 		* EXTRA STUFF
 		* 
 		*/
+		"Shaders" => [
+			true,
+			CHECKMARK,
+			"Graphical effects that might cause performance drops."
+		],
+		"Low Quality" => [
+			false,
+			CHECKMARK,
+			"Disables some objects to improve performance."
+		],
 		"Song Offset" => [
 			0,
 			SELECTOR,
@@ -231,7 +207,7 @@ class SaveData
 
 	public static function update()
 	{
-		Main.changeFramerate(data.get("Framerate Cap"));
+		Main.changeFramerate(Std.parseInt(data.get("FPS Cap")));
 		
 		if(Main.fpsCount != null)
 			Main.fpsCount.visible = data.get("FPS Counter");
@@ -249,7 +225,7 @@ class SaveData
 	public static function updateWindowSize()
 	{
 		if(FlxG.fullscreen) return;
-		var ws:Array<String> = data.get("Window Size").split("x");
+		var ws:Array<String> = data.get("Resolution").split("x");
         	var windowSize:Array<Int> = [Std.parseInt(ws[0]),Std.parseInt(ws[1])];
         	FlxG.stage.window.width = windowSize[0];
         	FlxG.stage.window.height= windowSize[1];

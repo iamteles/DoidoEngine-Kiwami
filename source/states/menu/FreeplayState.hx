@@ -57,7 +57,7 @@ class FreeplayState extends MusicBeatState
 
 		DiscordIO.changePresence("Freeplay - Choosin' a track");
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menu/backgrounds/menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menu/backgrounds/menuInvert'));
 		bg.scale.set(1.2,1.2); bg.updateHitbox();
 		bg.screenCenter();
 		add(bg);
@@ -189,7 +189,7 @@ class FreeplayState extends MusicBeatState
 		if(Controls.justPressed(BACK))
 		{
 			FlxG.sound.play(Paths.sound('menu/cancelMenu'));
-			Main.switchState(new MainMenuState());
+			Main.switchState(new DebugState());
 		}
 
 		for(rawItem in grpItems.members)

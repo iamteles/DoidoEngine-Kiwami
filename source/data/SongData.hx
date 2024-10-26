@@ -43,46 +43,11 @@ typedef FunkyWeek = {
 
 class SongData
 {
-	public static var defaultDiffs:Array<String> = ['easy', 'normal', 'hard'];
+	public static var defaultDiffs:Array<String> = ['normal'];
 	public static var weeks:Array<FunkyWeek> = [
 		{
 			songs: [
-				['tutorial', 'gf'],
-			],
-			weekFile: 'tutorial',
-			weekName: 'funky beginnings',
-			chars: ['', 'bf', 'gf'],
-		},
-		{
-			songs: [
-				['bopeebo', 	'dad'],
-				['fresh', 		'dad'],
-				['dadbattle', 	'dad'],
-			],
-			weekFile: 'week1',
-			weekName: 'daddy dearest',
-			chars: ['dad', 'bf', 'gf'],
-			diffs: ['easy', 'normal', 'hard', 'erect', 'nightmare'],
-		},
-		{
-			songs: [
-				['senpai', 	'senpai'],
-				['roses', 	'senpai'],
-				['thorns', 	'spirit'],
-			],
-			weekFile: 'week6',
-			weekName: 'hating simulator (ft. moawling)',
-			chars: ['senpai', 'bf', 'gf'],
-			diffs: ['easy', 'normal', 'hard', 'erect', 'nightmare'],
-		},
-		{
-			songs: [
-				["blam", 			"pico"],
-				["-debug", 			"bf-pixel"],
-				["useless",			"dad"],
-				["collision", 		"gemamugen"], // CU PINTO BOSTA
-				["lunar-odyssey",	"luano-day"],
-				["beep-power", 		"dad"],
+				["useless",			"face"],
 			],
 			freeplayOnly: true,
 		},
@@ -112,7 +77,7 @@ class SongData
 	{
 		return
 		{
-			song: "-debug",
+			song: "useless",
 			notes: [],
 			bpm: 100,
 			needsVoices: true,

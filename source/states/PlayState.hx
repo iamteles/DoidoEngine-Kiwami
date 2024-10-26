@@ -297,21 +297,6 @@ class PlayState extends MusicBeatState
 		bfStrumline.ID = 1;
 		strumlines.add(bfStrumline);
 		
-		/*if(SaveData.data.get("Middlescroll"))
-		{
-			dadStrumline.x -= strumPos[0]; // goes offscreen
-			bfStrumline.x  -= strumPos[1]; // goes to the middle
-			
-			// the best thing ever
-			var guitar = new DistantNoteShader();
-			guitar.downscroll = downscroll;
-			camStrum.setFilters([new openfl.filters.ShaderFilter(cast guitar.shader)]);
-			for(strumline in strumlines.members)
-				if(!strumline.isPlayer)
-					for(strum in strumline.strumGroup)
-						strum.visible = false;
-		}*/
-		
 		for(strumline in strumlines.members)
 		{
 			if(strumline.customData) continue;
@@ -793,7 +778,7 @@ class PlayState extends MusicBeatState
 		if(note.noteType != "no animation" && thisChar.specialAnim != 2)
 		{
 			if(thisChar.curAnimFrame() == thisChar.holdLoop
-			|| SaveData.data.get("Static Hold Anim"))
+			|| DevOptions.staticHoldAnim)
 			{
 				/*thisChar.specialAnim = 0;
 				thisChar.playAnim(singAnims[note.noteData], true);*/
@@ -907,7 +892,7 @@ class PlayState extends MusicBeatState
 		
 		var daRating = new Rating(rating, Timings.combo, note.assetModifier);
 
-		if(SaveData.data.get("Single Rating"))
+		if(DevOptions.singleRating)
 		{
 			if(prevRating != null)
 				prevRating.kill();
@@ -915,7 +900,7 @@ class PlayState extends MusicBeatState
 			prevRating = daRating;
 		}
 		
-		if(SaveData.data.get("Ratings on HUD"))
+		if(DevOptions.ratingsHUD)
 		{
 			hudBuild.ratingGrp.add(daRating);
 			
@@ -923,7 +908,7 @@ class PlayState extends MusicBeatState
 				item.cameras = [camHUD];
 			
 			var daX:Float = (FlxG.width / 2);
-			if(SaveData.data.get("Middlescroll"))
+			if(DevOptions.middlescroll)
 				daX -= FlxG.width / 4;
 
 			daRating.setPos(daX, SaveData.data.get('Downscroll') ? FlxG.height - 100 : 100);
@@ -1375,7 +1360,7 @@ class PlayState extends MusicBeatState
 							hold.noteCrochet * (strumline.scrollSpeed * 0.45) + 2
 						];
 						
-						if(SaveData.data.get("Split Holds"))
+						if(DevOptions.splitHolds)
 							newHoldSize[1] *= 0.7;
 						
 						hold.setGraphicSize(
@@ -1495,7 +1480,7 @@ class PlayState extends MusicBeatState
 							if(hold.isHoldEnd)
 								holdID -= 0.4999; // 0.5
 							
-							if(SaveData.data.get("Split Holds"))
+							if(DevOptions.splitHolds)
 								holdID -= 0.2;
 							
 							// calculating the clipping by how much you held the note
@@ -1799,7 +1784,7 @@ class PlayState extends MusicBeatState
 	// options substate
 	public function updateOption(option:String):Void
 	{
-		if(['Middlescroll', 'Downscroll'].contains(option))
+		if(['Downscroll'].contains(option))
 		{
 			for(strumline in strumlines.members)
 			{
@@ -1817,7 +1802,7 @@ class PlayState extends MusicBeatState
 				
 				if(thisStrumline.customData) continue;
 				if(!thisStrumline.isPlayer)
-					note.visible = !SaveData.data.get('Middlescroll');
+					note.visible = !DevOptions.middlescroll;
 				if(note.gotHit)
 					note.visible = false;
 			}
@@ -1851,9 +1836,6 @@ class PlayState extends MusicBeatState
 					}
 				}
 				loopGroup(this);
-			
-			case 'Song Timer':
-				hudBuild.timeTxt.visible = SaveData.data.get('Song Timer');
 		}
 	}
 
@@ -1863,12 +1845,12 @@ class PlayState extends MusicBeatState
 		{
 			if(!strumline.isPlayer)
 				for(strum in strumline.strumGroup)
-					strum.visible = !SaveData.data.get('Middlescroll');
+					strum.visible = !DevOptions.middlescroll;
 		}
 
 		var strumPos:Array<Float> = [FlxG.width / 2, FlxG.width / 4];
 
-		if(SaveData.data.get('Middlescroll'))
+		if(DevOptions.middlescroll)
 			return [-strumPos[0], strumPos[0]];
 		else
 			return [strumPos[0] - strumPos[1], strumPos[0] + strumPos[1]];
@@ -1898,7 +1880,7 @@ class PlayState extends MusicBeatState
 		if(isStoryMode)
 		{
 			isStoryMode = false;
-			Main.switchState(new StoryMenuState());
+			Main.switchState(new DebugState());
 		}
 		else
 		{

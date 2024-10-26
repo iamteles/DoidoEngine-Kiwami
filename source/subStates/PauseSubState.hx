@@ -116,7 +116,7 @@ class PauseSubState extends MusicBeatSubState
 	function closePause()
 	{
 		pauseSong.stop();
-		if(SaveData.data.get('Countdown on Unpause'))
+		if(DevOptions.unpauseCountdown)
 			startCountdown();
 		else
 			close();

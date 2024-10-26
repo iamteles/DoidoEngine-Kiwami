@@ -19,7 +19,7 @@ class Main extends Sprite
 	public static var fpsCount:FPSCounter;
 
 	// Use these to customize your mod further!
-	public static final savePath:String = "DiogoTV/DoidoEngine";
+	public static final savePath:String = "teles/DoidoEngine";
 	public static var gFont:String = Paths.font("vcr.ttf");
 
 	public static var instance:Main;

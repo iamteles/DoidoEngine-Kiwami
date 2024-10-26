@@ -29,7 +29,7 @@ class CrashHandler extends Sprite
         super();
         _stage = openfl.Lib.application.window.stage;
 
-        var windowSize:Int = CoolUtil.stringToInt((SaveData.data.get("Window Size").split("x")[1]));
+        var windowSize:Int = CoolUtil.stringToInt((SaveData.data.get("Resolution").split("x")[1]));
 
         fontSize = Std.int((windowSize / 30));
         trace(fontSize);
@@ -105,7 +105,7 @@ class CrashHandler extends Sprite
             @:privateAccess
             Main.instance.game._viewingCrash = false;
             
-            FlxG.switchState(new states.menu.MainMenuState());
+            FlxG.switchState(new states.menu.DebugState());
         }
         if(e.keyCode == Keyboard.ENTER)
         {

@@ -58,7 +58,7 @@ class CreditsState extends MusicBeatState
 
 		DiscordIO.changePresence("Credits - Thanks!!");
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menu/backgrounds/menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menu/backgrounds/menuInvert'));
 		bg.scale.set(1.2,1.2); bg.updateHitbox();
 		bg.screenCenter();
 		add(bg);
@@ -159,7 +159,7 @@ class CreditsState extends MusicBeatState
 			changeSelection(1);
 
 		if(Controls.justPressed(BACK))
-			Main.switchState(new MainMenuState());
+			Main.switchState(new DebugState());
 
 		#if !mobile
 		if(Controls.justPressed(ACCEPT))

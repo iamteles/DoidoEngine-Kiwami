@@ -14,30 +14,26 @@ import data.GameData.MusicBeatSubState;
 import gameObjects.menu.Alphabet;
 import gameObjects.menu.Alphabet;
 import gameObjects.menu.options.*;
-import states.menu.MainMenuState;
+import states.menu.DebugState;
 
 class OptionsSubState extends MusicBeatSubState
 {
     var mainShit:Array<String> = [
-        "preferences",
+        "graphics",
         "gameplay",
-        "appearance",
-        "adjust offsets",
+        "system",
+        "offsets",
         "controls",
     ];
     var optionShit:Map<String, Array<String>> =
 	[
-        "preferences" => [
-            #if desktop
-            "Window Size",
-            #end
+        "system" => [
             "Flashing Lights",
             "Cutscenes",
             #if desktop
             "FPS Counter",
             "Unfocus Freeze",
             #end
-            "Countdown on Unpause",
             #if DISCORD_RPC
             "Discord RPC"
             #end
@@ -45,24 +41,19 @@ class OptionsSubState extends MusicBeatSubState
 		"gameplay" => [
 			"Ghost Tapping",
 			"Downscroll",
-			"Middlescroll",
-            #if desktop
-            "Framerate Cap",
-            #end
+            "Note Splashes",
+            "Hold Splashes",
             "Hitsounds",
             "Hitsound Volume",
 		],
-		"appearance" => [
-            "Note Splashes",
-            "Hold Splashes",
+		"graphics" => [
+            "Resolution",
+            "FPS Cap",
             #if desktop
 			"Antialiasing",
             #end
-            "Split Holds",
-            "Static Hold Anim",
-            "Single Rating",
-			"Ratings on HUD",
-			"Song Timer",
+            "Shaders",
+            "Low Quality"
 		],
 	];
     
@@ -72,7 +63,6 @@ class OptionsSubState extends MusicBeatSubState
     ];
     var reloadOptions:Array<String> = [ // options that need some manual reloading on playstate when changed
         "Antialiasing",
-        "Song Timer",
     ];
     // anything else already updates automatically
     var playState:PlayState = null;
@@ -105,7 +95,7 @@ class OptionsSubState extends MusicBeatSubState
         this.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
         if(playState != null)
         {
-            for(i in ["Downscroll", "Middlescroll"])
+            for(i in ["Downscroll"])
                 if(PlayState.hasModchart)
                     forceRestartOptions.push(i);
                 else
@@ -119,7 +109,7 @@ class OptionsSubState extends MusicBeatSubState
 
         bg = new FlxSprite();
         if(playState == null)
-            bg.loadGraphic(Paths.image('menu/backgrounds/menuDesat'));
+            bg.loadGraphic(Paths.image('menu/backgrounds/menuInvert'));
         else
         {
             bg.makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFF000000);
@@ -183,7 +173,7 @@ class OptionsSubState extends MusicBeatSubState
             {
                 persistentDraw = true;
                 if(playState == null)
-                    Main.switchState(new MainMenuState());
+                    Main.switchState(new DebugState());
                 else
                 {
                     CoolUtil.playMusic();
@@ -213,7 +203,7 @@ class OptionsSubState extends MusicBeatSubState
                         trace('FUCK YOU!!');*/
                         persistentDraw = false;
                         openSubState(new ControlsSubState());
-                    case "adjust offsets":
+                    case "offsets":
                         persistentDraw = false;
                         openSubState(new OffsetsSubState());
                     default:
@@ -257,7 +247,7 @@ class OptionsSubState extends MusicBeatSubState
                         SaveData.save();
 
                         // custom stuff
-                        if(selec.label == "Window Size")
+                        if(selec.label == "Resolution")
                             SaveData.updateWindowSize();
                         // only happens when youre not holding the selector
                         if(selec.holdTimer < holdMax)

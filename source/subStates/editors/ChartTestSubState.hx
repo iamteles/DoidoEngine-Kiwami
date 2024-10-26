@@ -492,7 +492,7 @@ class ChartTestSubState extends MusicBeatSubState
 		
 		//hudBuild.updateText();
 		var daRating = new Rating(rating, Timings.combo, note.assetModifier);
-		if(SaveData.data.get("Single Rating"))
+		if(DevOptions.singleRating)
 		{
 			if(prevRating != null)
 				prevRating.kill();
@@ -643,7 +643,7 @@ class ChartTestSubState extends MusicBeatSubState
 							hold.noteCrochet * (strumline.scrollSpeed * 0.45) + 1
 						];
 						
-						if(SaveData.data.get("Split Holds"))
+						if(DevOptions.splitHolds)
 							newHoldSize[1] -= 20;
 						
 						hold.setGraphicSize(
@@ -755,7 +755,7 @@ class ChartTestSubState extends MusicBeatSubState
 						if(hold.isHoldEnd)
 							holdID -= 0.4999; // 0.5
 						
-						if(SaveData.data.get("Split Holds"))
+						if(DevOptions.splitHolds)
 							holdID -= 0.2;
 						
 						// calculating the clipping by how much you held the note
